@@ -1,13 +1,34 @@
 import React, { Component } from 'react';
 import Cards from './components/cards';
-import LoadButton from './components/loadbutton';
+import LoadButtons from './components/loadbuttons';
 
 
 class App extends Component {
-    state = { loadCmd: false }
+    state = { 
+        loadFilms: false,
+        loadPerson: false
+    }
 
-    updateLoad = (loadState) => {
-        this.setState({ loadCmd: loadState });
+    updateFilmsLoad = (loadState) => {
+        if(this.state.loadFilms === this.state.loadPerson) {  //only should be true when page first loads
+            this.setState({ loadFilms: loadState })
+        } else {
+            this.setState({ //replaces person with films info, brings back person button
+                loadFilms: loadState,
+                loadPerson: false
+            });
+        }
+    }
+    
+    updatePersonLoad = (loadState) => {
+        if(this.state.loadFilms === this.stateloadPerson) { //only should be true when page first loads
+            this.setState({ loadPerson: loadState })
+        } else {
+            this.setState({ //replaces films with person info, brings back film button
+                loadPerson: loadState,
+                loadFilms: false
+            })
+        }
     }
 
     render() {
@@ -19,11 +40,11 @@ class App extends Component {
                     </div>
                 </div>
                 <div className="container bg-muted">
-                    <LoadButton loadCmd={this.state.loadCmd} updateLoad={this.updateLoad} />
+                    <LoadButtons loadFilms={this.state.loadFilms} updateFilmsLoad={this.updateFilmsLoad} loadPerson={this.state.loadPerson} updatePersonLoad={this.updatePersonLoad} />
                 </div>
                 <div className="container">
                     <div className="row">
-                        <Cards loadCmd={this.state.loadCmd} />
+                        <Cards loadFilms={this.state.loadFilms} loadPerson={this.state.loadPerson} />
                     </div>
                 </div>
             </>
